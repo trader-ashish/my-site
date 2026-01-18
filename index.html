@@ -132,7 +132,6 @@
         }
 
         .dataset-selector {
-            margin-right: auto;
             margin-left: 20px;
         }
 
@@ -533,7 +532,12 @@
             color: var(--yellow);
         }
 
-        /* EXPORT BUTTON */
+        /* EXPORT BUTTON & DROPDOWN */
+        .export-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
         .export-btn {
             padding: 8px 14px;
             background: linear-gradient(135deg, var(--accent), #7c3aed);
@@ -552,6 +556,56 @@
         .export-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(56, 97, 251, 0.4);
+        }
+
+        .export-dropdown-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            top: 100%;
+            margin-top: 4px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            min-width: 180px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .export-dropdown:hover .export-dropdown-content {
+            display: block;
+        }
+
+        .export-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+
+        .export-option:hover {
+            background: rgba(56, 97, 251, 0.15);
+            color: var(--accent);
+        }
+
+        .export-option .icon {
+            font-size: 16px;
+        }
+
+        .export-option-desc {
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-top: 2px;
         }
 
         /* SOUND TOGGLE */
@@ -1268,6 +1322,8 @@
             display: flex;
             gap: 15px;
             align-items: center;
+            margin: 0 auto;
+            justify-content: center;
         }
 
         .index-item {
@@ -1723,9 +1779,34 @@
                         <option value="pdh_breakout">🚀 Bullish Breakout</option>
                         <option value="pdl_breakdown">💥 Bearish Breakdown</option>
                     </select>
-                    <button class="export-btn" onclick="exportToCSV()">
-                        📥 Export
-                    </button>
+                    <div class="export-dropdown">
+                        <button class="export-btn">
+                            📥 Export ▾
+                        </button>
+                        <div class="export-dropdown-content">
+                            <button class="export-option" onclick="exportToCSV()">
+                                <span class="icon">📊</span>
+                                <div>
+                                    <div>Export CSV</div>
+                                    <div class="export-option-desc">Spreadsheet format</div>
+                                </div>
+                            </button>
+                            <button class="export-option" onclick="exportToPDF()">
+                                <span class="icon">📄</span>
+                                <div>
+                                    <div>Export PDF</div>
+                                    <div class="export-option-desc">Document format</div>
+                                </div>
+                            </button>
+                            <button class="export-option" onclick="exportToTradingView()">
+                                <span class="icon">📈</span>
+                                <div>
+                                    <div>TradingView Watchlist</div>
+                                    <div class="export-option-desc">Copy symbols to clipboard</div>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
                     <button class="screener-open-btn" onclick="openScreener()">
                         🔍 Screener
                     </button>
@@ -3126,6 +3207,160 @@
             showToast('📥 Exported ' + filteredData.length + ' stocks to CSV', 'success');
         }
 
+        // --- EXPORT TO PDF ---
+        function exportToPDF() {
+            if (!filteredData || filteredData.length === 0) {
+                showToast('❌ No data to export', 'warning');
+                return;
+            }
+
+            // Create a printable HTML document
+            const dateStr = new Date().toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            let pdfContent = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>AshishTrader Stock Report</title>
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+                        body { padding: 30px; background: #fff; color: #333; }
+                        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid #3861fb; }
+                        .header h1 { color: #3861fb; font-size: 28px; margin-bottom: 5px; }
+                        .header .subtitle { color: #666; font-size: 14px; }
+                        .header .date { color: #999; font-size: 12px; margin-top: 10px; }
+                        .stats { display: flex; justify-content: center; gap: 40px; margin-bottom: 25px; }
+                        .stat-box { text-align: center; padding: 15px 25px; background: #f5f7ff; border-radius: 8px; }
+                        .stat-box .value { font-size: 24px; font-weight: 700; color: #3861fb; }
+                        .stat-box .label { font-size: 11px; color: #666; text-transform: uppercase; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 12px; }
+                        th { background: #3861fb; color: white; padding: 12px 8px; text-align: left; font-weight: 600; }
+                        td { padding: 10px 8px; border-bottom: 1px solid #eee; }
+                        tr:nth-child(even) { background: #f9f9f9; }
+                        tr:hover { background: #f0f4ff; }
+                        .positive { color: #00c853; font-weight: 600; }
+                        .negative { color: #ff1744; font-weight: 600; }
+                        .footer { margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd; text-align: center; font-size: 10px; color: #999; }
+                        @media print { body { print-color-adjust: exact; -webkit-print-color-adjust: exact; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>📊 AshishTrader Stock Report</h1>
+                        <div class="subtitle">Filter: ${currentFilter.toUpperCase()} | Dataset: ${currentSheet}</div>
+                        <div class="date">Generated on ${dateStr}</div>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-box">
+                            <div class="value">${filteredData.length}</div>
+                            <div class="label">Total Stocks</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="value" style="color:#00c853">${filteredData.filter(d => d.Changepct > 0).length}</div>
+                            <div class="label">Gainers</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="value" style="color:#ff1744">${filteredData.filter(d => d.Changepct < 0).length}</div>
+                            <div class="label">Losers</div>
+                        </div>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Symbol</th>
+                                <th>LTP (₹)</th>
+                                <th>Change %</th>
+                                <th>High</th>
+                                <th>Low</th>
+                                <th>PDH</th>
+                                <th>PDL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            filteredData.forEach((d, i) => {
+                const chgClass = d.Changepct >= 0 ? 'positive' : 'negative';
+                const arrow = d.Changepct >= 0 ? '▲' : '▼';
+                pdfContent += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><strong>${d.Symbol}</strong></td>
+                        <td>₹${d.LTP.toFixed(2)}</td>
+                        <td class="${chgClass}">${arrow} ${Math.abs(d.Changepct).toFixed(2)}%</td>
+                        <td>${d.High || '-'}</td>
+                        <td>${d.Low || '-'}</td>
+                        <td>${d['Previous High'] || '-'}</td>
+                        <td>${d['Previous Low'] || '-'}</td>
+                    </tr>
+                `;
+            });
+
+            pdfContent += `
+                        </tbody>
+                    </table>
+                    <div class="footer">
+                        <p>© AshishTrader Terminal | www.ashishtrader.co.in | Disclaimer: For educational purposes only.</p>
+                    </div>
+                    <script>window.onload = function() { window.print(); }<\/script>
+                </body>
+                </html>
+            `;
+
+            // Open new window for printing/saving as PDF
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(pdfContent);
+            printWindow.document.close();
+
+            showToast('📄 PDF report opened - Use Print dialog to save', 'success');
+        }
+
+        // --- EXPORT TO TRADINGVIEW WATCHLIST ---
+        function exportToTradingView() {
+            if (!filteredData || filteredData.length === 0) {
+                showToast('❌ No data to export', 'warning');
+                return;
+            }
+
+            // TradingView watchlist format: NSE:SYMBOL (comma or newline separated)
+            // Each symbol prefixed with NSE: for Indian stocks
+            const symbols = filteredData.map(d => 'NSE:' + d.Symbol).join(',');
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(symbols).then(() => {
+                showToast('📈 ' + filteredData.length + ' symbols copied! Paste in TradingView watchlist', 'success');
+            }).catch(err => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = symbols;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('📈 ' + filteredData.length + ' symbols copied! Paste in TradingView watchlist', 'success');
+            });
+
+            // Also offer download as .txt file
+            const blob = new Blob([symbols], { type: 'text/plain;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'tradingview_watchlist_' + currentFilter + '_' + new Date().toISOString().slice(0, 10) +
+                '.txt');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         // --- SCROLLING TICKER ---
         function updateTicker() {
             if (!allData || allData.length === 0) return;
@@ -3151,12 +3386,12 @@
                 const color = change >= 0 ? 'var(--green)' : 'var(--red)';
                 const arrow = change >= 0 ? '▲' : '▼';
                 return `
-                    <span class="ticker-item" onclick="selectStockBySymbol('${stock.Symbol}')">
-                        <span class="ticker-symbol">${stock.Symbol}</span>
-                        <span class="ticker-price">₹${ltp.toFixed(2)}</span>
-                        <span class="ticker-change" style="color: ${color}">${arrow} ${Math.abs(change).toFixed(2)}%</span>
-                    </span>
-                `;
+<span class="ticker-item" onclick="selectStockBySymbol('${stock.Symbol}')">
+    <span class="ticker-symbol">${stock.Symbol}</span>
+    <span class="ticker-price">₹${ltp.toFixed(2)}</span>
+    <span class="ticker-change" style="color: ${color}">${arrow} ${Math.abs(change).toFixed(2)}%</span>
+</span>
+`;
             }).join('');
 
             // Set ticker content (no duplication needed with new CSS)
@@ -3197,8 +3432,7 @@
             let results = allData.filter(stock => {
                 const change = stock.Changepct;
                 const ltp = stock.LTP;
-                return change >= changeMin && change <= changeMax &&
-                    ltp >= ltpMin && ltp <= ltpMax;
+                return change >= changeMin && change <= changeMax && ltp >= ltpMin && ltp <= ltpMax;
             });
 
             // Sort
@@ -3305,18 +3539,18 @@
                 const arrow = pnl >= 0 ? '▲' : '▼';
 
                 return `
-                    <div class="portfolio-item">
-                        <div>
-                            <div class="portfolio-symbol">${item.symbol}</div>
-                            <div class="portfolio-qty">${item.qty} qty @ ₹${item.buyPrice}</div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="portfolio-pnl ${pnlClass}">${arrow} ₹${Math.abs(pnl).toFixed(0)}</div>
-                            <div style="font-size: 10px; color: var(--text-dim);">${pnlPct.toFixed(2)}%</div>
-                        </div>
-                        <span style="cursor: pointer; color: var(--red);" onclick="removeFromPortfolio(${index})">✕</span>
-                    </div>
-                `;
+            <div class="portfolio-item">
+                <div>
+                    <div class="portfolio-symbol">${item.symbol}</div>
+                    <div class="portfolio-qty">${item.qty} qty @ ₹${item.buyPrice}</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="portfolio-pnl ${pnlClass}">${arrow} ₹${Math.abs(pnl).toFixed(0)}</div>
+                    <div style="font-size: 10px; color: var(--text-dim);">${pnlPct.toFixed(2)}%</div>
+                </div>
+                <span style="cursor: pointer; color: var(--red);" onclick="removeFromPortfolio(${index})">✕</span>
+            </div>
+            `;
             }).join('');
 
             container.innerHTML = html;
@@ -3345,8 +3579,9 @@
                 <span>ashishmishraahc@gmail.com</span>
             </a>
         </div>
-        <div class="footer-disclaimer">⚠️ Disclaimer: Trading in securities involves risk. This tool is for educational
-            & informational purposes only. Past performance is not indicative of future results.</div>
+        <div class="footer-disclaimer">⚠️ Disclaimer: Trading in securities involves risk. This tool is for
+            educational & informational purposes only. Past performance is not indicative of future results.
+        </div>
     </footer>
 
 </body>
