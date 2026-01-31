@@ -210,13 +210,198 @@
         /* MAIN LAYOUT */
         .container {
             display: grid;
-            grid-template-columns: 360px 1fr 340px;
-            height: calc(100vh - 255px);
-            gap: 1px;
-            background: var(--border);
-            flex: 1;
+            grid-template-columns: 380px 1fr 340px;
+            height: calc(100vh - 175px);
+            gap: 15px;
+            padding: 15px;
+            background: var(--bg-dark);
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow: hidden;
+            background: var(--bg-panel);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            padding: 15px;
             min-height: 0;
         }
+
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            min-height: 0;
+            padding-right: 5px;
+        }
+
+        /* NOTIFICATION CENTER */
+        .bell-btn {
+            position: relative;
+            background: rgba(42, 46, 57, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .bell-btn:hover {
+            border-color: var(--accent);
+            background: rgba(56, 97, 251, 0.1);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--red);
+            color: white;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 5px;
+            border-radius: 10px;
+            border: 2px solid var(--bg-dark);
+            display: none;
+        }
+
+        .notification-panel {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 40px;
+            width: 350px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+            z-index: 3000;
+            flex-direction: column;
+            max-height: 500px;
+            overflow: hidden;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-10px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .notif-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .notif-body {
+            flex: 1;
+            overflow-y: auto;
+            background: var(--bg-dark);
+        }
+
+        .notif-item {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .notif-item:hover {
+            background: rgba(56, 97, 251, 0.08);
+        }
+
+        .notif-time {
+            font-size: 10px;
+            color: var(--text-dim);
+            font-weight: 600;
+        }
+
+        .notif-msg {
+            font-size: 12px;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow: hidden;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            height: 350px;
+            flex-shrink: 0;
+        }
+
+        .alert-log-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .alert-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slide-in 0.3s ease;
+        }
+
+        @keyframes slide-in {
+            from {
+                transform: translateX(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .shocker-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+        }
+
+        .shocker-item {
+            background: var(--bg-dark);
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
 
         /* Tab Navigation */
         .tab-nav {
@@ -801,6 +986,67 @@
             color: var(--text-dim);
         }
 
+        .terminal-price-overlay {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(19, 23, 34, 0.9);
+            border: 1px solid var(--accent);
+            padding: 10px 15px;
+            border-radius: 8px;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            min-width: 130px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+            border-left: 4px solid var(--accent);
+        }
+
+        .overlay-label {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .overlay-value {
+            font-size: 22px;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+        }
+
+        .overlay-change {
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        .refresh-btn {
+            background: rgba(56, 97, 251, 0.15);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+        }
+
+        .refresh-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: rotate(180deg);
+        }
+
         .screener-row {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -890,6 +1136,78 @@
         .add-portfolio-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
+        }
+
+        /* FUNDAMENTAL CARD STYLES */
+        .funda-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .funda-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .funda-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .funda-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .funda-advice {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .funda-advice.good {
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid var(--green);
+            color: var(--green);
+        }
+
+        .funda-advice.bad {
+            background: rgba(255, 23, 68, 0.1);
+            border: 1px solid var(--red);
+            color: var(--red);
+        }
+
+        .funda-advice.neutral {
+            background: rgba(255, 235, 59, 0.1);
+            border: 1px solid var(--yellow);
+            color: var(--yellow);
+        }
+
+        .funda-link {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 11px;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .funda-link:hover {
+            text-decoration: underline;
         }
 
         .portfolio-modal {
@@ -1037,83 +1355,140 @@
 
         .sector-card {
             background: var(--bg-panel);
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 15px;
             border: 1px solid var(--border);
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100px;
         }
 
         .sector-card::before {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            right: 0;
-            height: 4px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
             transition: all 0.3s;
         }
 
         .sector-card.positive::before {
-            background: linear-gradient(90deg, var(--green), #4caf50);
+            background: var(--green);
         }
 
         .sector-card.negative::before {
-            background: linear-gradient(90deg, var(--red), #f44336);
+            background: var(--red);
         }
 
         .sector-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border-color: var(--accent);
+            z-index: 10;
         }
 
         .sector-name {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--text);
-            margin-bottom: 15px;
-            line-height: 1.3;
-        }
-
-        .sector-stats {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .sector-stat-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-        }
-
-        .sector-label {
-            color: var(--text-dim);
-        }
-
-        .sector-value {
-            font-weight: 600;
-            font-size: 13px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .sector-change {
-            font-size: 20px;
-            font-weight: 800;
-            text-align: center;
-            margin: 15px 0;
+            font-size: 18px;
+            font-weight: 900;
+            margin-bottom: 5px;
         }
 
         .sector-stocks-count {
-            text-align: center;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-dim);
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(42, 46, 57, 0.5);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Sector Modal Styles */
+        .sector-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .sector-modal-content {
+            background: var(--bg-panel);
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .sector-modal-header {
+            padding: 20px 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sector-modal-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0;
+        }
+
+        .sector-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .sector-table th,
+        .sector-table td {
+            padding: 12px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sector-table tr:hover {
+            background: rgba(56, 97, 251, 0.05);
+            cursor: pointer;
         }
 
         .heatmap-header {
@@ -1728,9 +2103,39 @@
         </div>
 
         <div class="header-stats">
+            <!-- Notification Bell -->
+            <div class="bell-btn" id="bellIcon" onclick="toggleNotifications()" title="Alert History">
+                <span style="font-size:18px;">🔔</span>
+                <span id="notifBadge" class="notification-badge">0</span>
+                <span style="font-size:11px; font-weight:700;">Alerts</span>
+            </div>
+
+            <!-- Notification Dropdown Panel -->
+            <div id="notifPanel" class="notification-panel">
+                <div class="notif-header">
+                    <span style="font-weight:800; font-size:14px;">🔔 Recent Alerts</span>
+                    <span onclick="clearNotifications()"
+                        style="font-size:11px; color:var(--accent); cursor:pointer; font-weight:700;">Clear All</span>
+                </div>
+                <div id="notifHistory" class="notif-body">
+                    <div style="padding:40px; text-align:center; color:var(--text-dim); font-size:12px;">No alerts yet
+                    </div>
+                </div>
+                <div
+                    style="padding:10px; font-size:10px; text-align:center; color:var(--text-dim); border-top:1px solid var(--border);">
+                    Click an alert to open TradingView chart
+                </div>
+            </div>
+
             <!-- Logout -->
-            <div class="logout-btn" onclick="logout()">
+            <div class="logout-btn" onclick="logout()" title="Secure Logout">
                 <span>🔒</span> Logout
+            </div>
+            <!-- Clear Cache -->
+            <div class="logout-btn" onclick="clearSystemCache()"
+                style="background: rgba(255, 152, 0, 0.1); color: #ff9800; border-color: rgba(255, 152, 0, 0.2);"
+                title="Clear browser cache and reload">
+                <span>🧹</span> Clear Cache
             </div>
             <!-- Sound Toggle -->
             <div class="sound-toggle" id="soundToggle" onclick="toggleSound()">
@@ -1749,6 +2154,10 @@
             <div class="stat-item">
                 <div class="stat-label">Stocks</div>
                 <div class="stat-value" id="stockCount">0</div>
+            </div>
+            <div class="stat-item" style="min-width: 80px;">
+                <div class="stat-label">Last Update</div>
+                <div class="stat-value" id="lastUpdate" style="font-size: 12px; color: var(--green);">--</div>
             </div>
         </div>
     </header>
@@ -1842,51 +2251,76 @@
             </div>
         </aside>
 
-        <main class="main-chart">
-            <div class="tab-nav">
-                <button class="tab-btn active" onclick="switchTab('chart', this)">📈 Chart View</button>
-                <button class="tab-btn" onclick="switchTab('heatmap', this)">🔥 Sector Heatmap</button>
-            </div>
-
-            <!-- CHART TAB -->
-            <div id="chartTab" class="tab-content active">
-                <div class="chart-controls">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <span id="label" class="stock-title">HDFCBANK</span>
-                        <span class="chart-tag">BSE Live Data</span>
-                        <!-- Timeframe Buttons -->
-                        <div class="timeframe-btns">
-                            <button class="tf-btn" onclick="changeTimeframe('1', this)">1m</button>
-                            <button class="tf-btn" onclick="changeTimeframe('5', this)">5m</button>
-                            <button class="tf-btn" onclick="changeTimeframe('15', this)">15m</button>
-                            <button class="tf-btn" onclick="changeTimeframe('60', this)">1H</button>
-                            <button class="tf-btn active" onclick="changeTimeframe('D', this)">1D</button>
-                            <button class="tf-btn" onclick="changeTimeframe('W', this)">1W</button>
-                            <button class="tf-btn" onclick="changeTimeframe('M', this)">1M</button>
-                        </div>
+        <main class="main-content">
+            <!-- INSIGHTS GRID -->
+            <div class="insights-grid">
+                <!-- Live Alert Log -->
+                <div class="info-card" style="height: 100%; display: flex; flex-direction: column;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <h3 style="color:var(--accent);">🚀 Live Breakout Log</h3>
+                        <button onclick="document.getElementById('alertLog').innerHTML=''" class="tf-btn"
+                            style="padding:2px 8px; font-size:10px;">Clear</button>
+                    </div>
+                    <div id="alertLog" class="alert-log-container">
+                        <div style="color:var(--text-dim); font-size:11px; text-align:center; margin-top:20px;">Waiting
+                            for market breakouts...</div>
                     </div>
                 </div>
-                <div id="tv_chart_div"></div>
+
+                <!-- Market Breath / Stats -->
+                <div class="info-card" style="height: 100%; display: flex; flex-direction: column;">
+                    <h3 style="color:var(--yellow); margin-bottom:12px;">📈 Top Liquidity Stocks</h3>
+                    <div id="volumeShockers" class="shocker-list">
+                        <!-- Volume shockers appear here -->
+                    </div>
+                </div>
             </div>
 
-            <!-- HEATMAP TAB -->
-            <div id="heatmapTab" class="tab-content">
-                <div class="heatmap-container">
-                    <div class="heatmap-header">
-                        <div>
-                            <div class="heatmap-title">📊 Sector Performance Heatmap</div>
-                            <div class="heatmap-subtitle">Real-time sector analysis based on stock movements</div>
-                        </div>
-                        <div class="sort-controls">
-                            <button class="sort-btn active" onclick="sortSectors('change', this)">By Change %</button>
-                            <button class="sort-btn" onclick="sortSectors('stocks', this)">By Stocks</button>
-                            <button class="sort-btn" onclick="sortSectors('name', this)">By Name</button>
-                        </div>
-                    </div>
-                    <div id="heatmapGrid" class="heatmap-grid"></div>
+            <!-- HEATMAP SECTION -->
+            <div class="info-card" id="heatmapTab"
+                style="flex: 1; overflow: hidden; display: flex; flex-direction: column;">
+                <h3 style="margin-bottom: 12px;">🔥 Sector Heatmap</h3>
+                <div id="sectorHeatmap" class="heatmap-container" style="flex:1;">
+                    <div id="heatmapGrid" class="heatmap-grid" style="height: 100%;"></div>
                 </div>
             </div>
         </main>
+
+        <!-- Sector Explorer Modal -->
+        <div id="sectorExplorerModal" class="sector-modal">
+            <div class="sector-modal-content">
+                <div class="sector-modal-header">
+                    <div>
+                        <h2 id="sectorModalTitle" style="color:var(--accent); margin-bottom:4px;">Sector Name</h2>
+                        <div id="sectorModalCount"
+                            style="font-size:12px; color:var(--text-dim); font-weight:700; text-transform:uppercase;">0
+                            Stocks</div>
+                    </div>
+                    <button class="close-btn" onclick="closeSectorExplorer()" style="font-size:32px;">&times;</button>
+                </div>
+                <div class="sector-modal-body">
+                    <table class="sector-table">
+                        <thead>
+                            <tr>
+                                <th>Symbol</th>
+                                <th>Price</th>
+                                <th>Change %</th>
+                                <th>PDH</th>
+                                <th>PDL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectorModalBody">
+                            <!-- Populated via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div
+                    style="padding:15px; text-align:center; font-size:11px; color:var(--text-dim); border-top:1px solid var(--border);">
+                    💡 Click on any stock to open its chart on TradingView.com
+                </div>
+            </div>
+        </div>
+
 
         <aside class="info-panel">
             <div class="info-card">
@@ -1950,64 +2384,101 @@
                         <div class="pdh-pdl-value low" id="infoPDL">-</div>
                     </div>
                 </div>
-            </div>
+                <div class="info-card" id="fundaCard">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <h3>💎 Fundamental Insight</h3>
+                        <span id="fundaScore"
+                            style="font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px; background:var(--bg-dark);">-</span>
+                    </div>
+                    <div class="funda-grid">
+                        <div class="funda-item">
+                            <div class="funda-label">PE</div>
+                            <div class="funda-value" id="fundaPE">-</div>
+                        </div>
+                        <div class="funda-item">
+                            <div class="funda-label">ROE %</div>
+                            <div class="funda-value" id="fundaROE">-</div>
+                        </div>
+                        <div class="funda-item">
+                            <div class="funda-label">ROCE %</div>
+                            <div class="funda-value" id="fundaROCE">-</div>
+                        </div>
+                        <div class="funda-item">
+                            <div class="funda-label">Mkt Cap</div>
+                            <div class="funda-value" id="fundaMCap">-</div>
+                        </div>
+                        <div class="funda-item">
+                            <div class="funda-label">D/E</div>
+                            <div class="funda-value" id="fundaDE">-</div>
+                        </div>
+                        <div class="funda-item">
+                            <div class="funda-label">Div Yield</div>
+                            <div class="funda-value" id="fundaDiv">-</div>
+                        </div>
+                    </div>
+                    <div id="fundaAdvice" class="funda-advice neutral">
+                        <span>💡 Click a stock to see fundamental AI analysis and recommendation.</span>
+                    </div>
+                    <a id="fundaDeepLink" href="#" target="_blank" class="funda-link">🔍 View Detailed Analysis on
+                        Screener.in ↗</a>
+                </div>
 
-            <div class="info-card">
-                <h3>Quick Stats</h3>
-                <div class="info-row">
-                    <span class="info-label">Total Stocks</span>
-                    <span class="info-value" id="totalStocks">0</span>
+                <div class="info-card">
+                    <h3>Quick Stats</h3>
+                    <div class="info-row">
+                        <span class="info-label">Total Stocks</span>
+                        <span class="info-value" id="totalStocks">0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Gainers</span>
+                        <span class="info-value up" id="gainersCount">0</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Losers</span>
+                        <span class="info-value down" id="losersCount">0</span>
+                    </div>
                 </div>
-                <div class="info-row">
-                    <span class="info-label">Gainers</span>
-                    <span class="info-value up" id="gainersCount">0</span>
-                </div>
-                <div class="info-row">
-                    <span class="info-label">Losers</span>
-                    <span class="info-value down" id="losersCount">0</span>
-                </div>
-            </div>
 
-            <!-- Top Gainers -->
-            <div class="info-card">
-                <h3>🚀 Top 5 Gainers</h3>
-                <div class="top-movers" id="topGainers">
-                    <div style="color: var(--text-dim); font-size: 11px;">Loading...</div>
+                <!-- Top Gainers -->
+                <div class="info-card">
+                    <h3>🚀 Top 5 Gainers</h3>
+                    <div class="top-movers" id="topGainers">
+                        <div style="color: var(--text-dim); font-size: 11px;">Loading...</div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Top Losers -->
-            <div class="info-card">
-                <h3>📉 Top 5 Losers</h3>
-                <div class="top-movers" id="topLosers">
-                    <div style="color: var(--text-dim); font-size: 11px;">Loading...</div>
+                <!-- Top Losers -->
+                <div class="info-card">
+                    <h3>📉 Top 5 Losers</h3>
+                    <div class="top-movers" id="topLosers">
+                        <div style="color: var(--text-dim); font-size: 11px;">Loading...</div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Keyboard Shortcuts -->
-            <div class="info-card">
-                <h3>⌨️ Keyboard Shortcuts</h3>
-                <div class="keyboard-hint">
-                    <span class="key">↑</span><span class="key">↓</span> Navigate stocks
+                <!-- Keyboard Shortcuts -->
+                <div class="info-card">
+                    <h3>⌨️ Keyboard Shortcuts</h3>
+                    <div class="keyboard-hint">
+                        <span class="key">↑</span><span class="key">↓</span> Navigate stocks
+                    </div>
+                    <div class="keyboard-hint">
+                        <span class="key">Enter</span> Select stock
+                    </div>
+                    <div class="keyboard-hint">
+                        <span class="key">R</span> Refresh data
+                    </div>
                 </div>
-                <div class="keyboard-hint">
-                    <span class="key">Enter</span> Select stock
-                </div>
-                <div class="keyboard-hint">
-                    <span class="key">R</span> Refresh data
-                </div>
-            </div>
 
-            <!-- Portfolio Tracker -->
-            <div class="info-card">
-                <h3>💰 My Portfolio</h3>
-                <div class="portfolio-container" id="portfolioContainer">
-                    <!-- Portfolio items will be added here -->
+                <!-- Portfolio Tracker -->
+                <div class="info-card">
+                    <h3>💰 My Portfolio</h3>
+                    <div class="portfolio-container" id="portfolioContainer">
+                        <!-- Portfolio items will be added here -->
+                    </div>
+                    <button class="add-portfolio-btn" onclick="openPortfolioModal()">
+                        + Add Stock
+                    </button>
                 </div>
-                <button class="add-portfolio-btn" onclick="openPortfolioModal()">
-                    + Add Stock
-                </button>
-            </div>
         </aside>
 
 
@@ -2094,6 +2565,7 @@
         let indexData = [];
         let currentSymbol = "HDFCBANK";
         let currentFilter = 'all';
+        let currentSort = 'change';
         let sectorData = [];
         let currentSortCol = 'Symbol';
         let currentSortDir = 'asc';
@@ -2178,20 +2650,22 @@
             errorEl.innerText = "";
 
             try {
-                // Fetch user sheet - OpenSheet does not support query params, using fetch cache:reload instead
-                const res = await fetch(`https://opensheet.elk.sh/${SPREADSHEET_ID}/user`, { cache: "reload" });
+                let res;
+                // Simplified fetch without timestamp to avoid 400 errors
+                res = await fetch(`https://opensheet.elk.sh/${SPREADSHEET_ID}/user`, { cache: "reload" });
 
-                if (!res.ok) throw new Error(`Server Error: ${res.status}`);
+                if (!res.ok) throw new Error("Server not responding");
 
                 const users = await res.json();
 
-                if (!Array.isArray(users)) throw new Error("Invalid user data format");
+                if (!Array.isArray(users)) throw new Error("Invalid format");
 
-                // Check credentials (case-insensitive for ID)
-                const validUser = users.find(u =>
-                    (String(u.ID).trim().toLowerCase() == id.toLowerCase()) &&
-                    (String(u.Pass).trim() == pass)
-                );
+                // Case-insensitive ID and flexible Password property names
+                const validUser = users.find(u => {
+                    const sheetId = String(u.ID || u.id || "").trim().toLowerCase();
+                    const sheetPass = String(u.Pass || u.pass || u.Password || "").trim();
+                    return sheetId === id.toLowerCase() && sheetPass === pass;
+                });
 
                 if (validUser) {
                     sessionStorage.setItem('at_auth', 'true');
@@ -2201,8 +2675,8 @@
                     errorEl.innerText = "Invalid ID or Password";
                 }
             } catch (e) {
-                console.error(e);
-                errorEl.innerText = e.message || "Connection Error.";
+                console.error('Login Error:', e);
+                errorEl.innerText = "Login Failed: Check Internet or Contact Support.";
             } finally {
                 btn.innerText = "Login";
                 btn.disabled = false;
@@ -2213,6 +2687,17 @@
             if (confirm('Are you sure you want to logout?')) {
                 sessionStorage.removeItem('at_auth');
                 window.location.reload();
+            }
+        }
+
+        function clearSystemCache() {
+            if (confirm('This will clear all saved data and logout. Continue?')) {
+                localStorage.clear();
+                sessionStorage.clear();
+                showToast('🧹 Cache cleared! Reloading...', 'success');
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 1000);
             }
         }
 
@@ -2227,11 +2712,22 @@
             loadFromCache(); // Instant load
             fetchData();     // Background refresh
             fetchIndexData();
-            setInterval(fetchData, 60000); // Auto refresh every minute
-            setInterval(fetchIndexData, 60000); // Refresh index data every minute
+
+            // Smart auto-refresh that adjusts based on API response
+            let dataRefreshTimer = null;
+            function scheduleNextRefresh() {
+                if (dataRefreshTimer) clearTimeout(dataRefreshTimer);
+                const interval = typeof getRefreshInterval === 'function' ? getRefreshInterval() : 15000;
+                dataRefreshTimer = setTimeout(() => {
+                    fetchData();
+                    scheduleNextRefresh();
+                }, interval);
+            }
+            scheduleNextRefresh();
+
+            setInterval(fetchIndexData, 20000); // Refresh index data every 20 seconds (slightly offset)
             setInterval(updateClock, 1000);
             setInterval(updateMarketTimer, 1000);
-            loadChart();
             setupKeyboardNavigation();
             updateMarketTimer();
             renderPortfolio();
@@ -2247,7 +2743,9 @@
         // --- INDEX DATA FETCH ---
         async function fetchIndexData() {
             try {
-                let res = await fetch(INDEX_URL);
+                // Simplified fetch to avoid header/CORS issues
+                let res = await fetch(INDEX_URL, { cache: 'no-cache' });
+                if (!res.ok) throw new Error("Index Fetch failed");
                 indexData = await res.json();
                 updateIndexDisplay();
                 updateMarketSentiment();
@@ -2340,61 +2838,231 @@
             }
         }
 
-        // --- DATA FETCH & RENDER ---
+        // --- ENHANCED DATA FETCH WITH FALLBACK SYSTEM ---
+        let fetchRetryCount = 0;
+        let lastSuccessfulFetch = 0;
+        let dataSource = 'live'; // 'live' or 'cache'
+
+        // Alternative API endpoints for fallback
+        const ALTERNATIVE_URLS = [
+            `https://opensheet.elk.sh/${SPREADSHEET_ID}/${currentSheet}`,
+            `https://opensheet.vercel.app/${SPREADSHEET_ID}/${currentSheet}`,
+        ];
+
+        async function fetchWithRetry(url, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 sec timeout
+
+                    const res = await fetch(url, {
+                        cache: 'no-cache',
+                        signal: controller.signal
+                    });
+                    clearTimeout(timeoutId);
+
+                    if (res.ok) {
+                        return await res.json();
+                    }
+
+                    // If rate limited (429) or server error (5xx), wait and retry
+                    if (res.status === 429 || res.status >= 500) {
+                        console.log(`Retry ${i + 1}/${retries} after ${delay}ms...`);
+                        await new Promise(r => setTimeout(r, delay * (i + 1)));
+                        continue;
+                    }
+
+                    throw new Error(`HTTP ${res.status}`);
+                } catch (e) {
+                    if (i === retries - 1) throw e;
+                    console.log(`Attempt ${i + 1} failed, retrying...`);
+                    await new Promise(r => setTimeout(r, delay));
+                }
+            }
+            throw new Error('All retries failed');
+        }
+
         async function fetchData() {
+            const lastUpdateEl = document.getElementById('lastUpdate');
+
             try {
-                let res = await fetch(DATA_URL);
-                let rawData = await res.json();
+                let rawData = null;
+                let usedFallback = false;
+
+                // Try primary source first
+                try {
+                    rawData = await fetchWithRetry(DATA_URL, 2, 1000);
+                    fetchRetryCount = 0; // Reset on success
+                } catch (primaryError) {
+                    console.warn('Primary source failed:', primaryError.message);
+
+                    // Try alternative URLs
+                    for (let altUrl of ALTERNATIVE_URLS) {
+                        if (altUrl === DATA_URL) continue; // Skip if same as primary
+                        try {
+                            console.log('Trying alternative:', altUrl);
+                            rawData = await fetchWithRetry(altUrl, 1, 500);
+                            usedFallback = true;
+                            break;
+                        } catch (e) {
+                            console.warn('Alternative failed:', e.message);
+                        }
+                    }
+                }
+
+                // If all sources failed, use cache
+                if (!rawData) {
+                    fetchRetryCount++;
+                    const cached = localStorage.getItem('stockDataCache_' + currentSheet);
+
+                    if (cached && allData.length === 0) {
+                        // Only load from cache if we have no data at all
+                        try {
+                            allData = JSON.parse(cached);
+                            dataSource = 'cache';
+
+                            // Show cache age
+                            const cacheTime = localStorage.getItem('stockDataCacheTime_' + currentSheet);
+                            if (cacheTime) {
+                                const age = Math.round((Date.now() - parseInt(cacheTime)) / 60000);
+                                lastUpdateEl.innerText = `Cache (${age}m ago)`;
+                                lastUpdateEl.style.color = 'var(--yellow)';
+                            }
+
+                            showToast(`⚠️ Using cached data (API blocked - retry ${fetchRetryCount})`, 'warning');
+
+                            // Still render the cached data
+                            filteredData = [...allData];
+                            renderTable();
+                            updateStats();
+                            updateTopMovers();
+                        } catch (e) {
+                            console.error('Cache parse error:', e);
+                        }
+                    } else if (allData.length > 0) {
+                        // We have data in memory, just show warning
+                        showToast(`⚠️ Update failed - showing last data (retry ${fetchRetryCount})`, 'warning');
+                        lastUpdateEl.style.color = 'var(--yellow)';
+                    } else {
+                        showToast('❌ No data available', 'error');
+                    }
+
+                    // Increase refresh interval temporarily if being blocked
+                    if (fetchRetryCount >= 3) {
+                        showToast('🔄 Slowing down requests to avoid blocking', 'info');
+                    }
+
+                    return;
+                }
+
+                // Parse the data
+                if (!Array.isArray(rawData)) {
+                    if (rawData && rawData.rows && Array.isArray(rawData.rows)) rawData = rawData.rows;
+                    else if (rawData && rawData.data && Array.isArray(rawData.data)) rawData = rawData.data;
+                    else {
+                        console.error('Data received is not an array:', rawData);
+                        showToast('❌ Invalid data format', 'error');
+                        return;
+                    }
+                }
 
                 let gainers = 0;
                 let losers = 0;
 
-                // Pre-process data: Convert strings to numbers once and calc stats
-                allData = rawData.map(d => {
-                    const ltp = parseFloat(d.LTP) || 0;
-                    const chg = parseFloat(d.Changepct) || 0;
+                allData = rawData
+                    .filter(d => (d.Symbol || d.symbol || d.SYMBOL || d.Ticker) && String(d.Symbol || d.symbol || d.SYMBOL || d.Ticker).trim() !== "")
+                    .map(d => {
+                        const sym = d.Symbol || d.symbol || d.SYMBOL || d.Ticker;
+                        const ltpStr = String(d.LTP || d.ltp || d.Price || "0");
+                        const chgStr = String(d.Changepct || d.changepct || d.Change || d['Change %'] || "0");
+                        const volStr = String(d.Volume || d.volume || d.VOL || "0");
 
-                    if (chg > 0) gainers++;
-                    if (chg < 0) losers++;
+                        const ltp = parseFloat(ltpStr.replace(/,/g, '')) || 0;
+                        const chg = parseFloat(chgStr.replace('%', '')) || 0;
+                        const vol = parseFloat(volStr.replace(/,/g, '')) || 0;
 
-                    return {
-                        ...d,
-                        LTP: ltp,
-                        Changepct: chg,
-                        High: parseFloat(d.High) || 0,
-                        Low: parseFloat(d.Low) || 0,
-                        'Previous High': parseFloat(d['Previous High']) || 0,
-                        'Previous Low': parseFloat(d['Previous Low']) || 0
-                    };
-                });
+                        if (chg > 0) gainers++;
+                        if (chg < 0) losers++;
 
-                // Sort by Change% DESC once
+                        return {
+                            ...d,
+                            Symbol: sym,
+                            LTP: ltp,
+                            Changepct: chg,
+                            Volume: vol,
+                            High: parseFloat(String(d.High || d.high || 0).replace(/,/g, '')) || 0,
+                            Low: parseFloat(String(d.Low || d.low || 0).replace(/,/g, '')) || 0,
+                            'Previous High': parseFloat(String(d['Previous High'] || d.PDH || 0).replace(/,/g, '')) || 0,
+                            'Previous Low': parseFloat(String(d['Previous Low'] || d.PDL || 0).replace(/,/g, '')) || 0
+                        };
+                    });
+
                 allData.sort((a, b) => b.Changepct - a.Changepct);
+                dataSource = 'live';
+                lastSuccessfulFetch = Date.now();
 
-                // Cache data for instant load on next visit
+                // Sync filteredData
+                const searchVal = document.getElementById('search').value.toLowerCase();
+                if (searchVal || currentFilter !== 'all') {
+                    renderTable();
+                } else {
+                    filteredData = [...allData];
+                    renderTable();
+                }
+
+                // Save to cache with timestamp
                 try {
                     localStorage.setItem('stockDataCache_' + currentSheet, JSON.stringify(allData));
+                    localStorage.setItem('stockDataCacheTime_' + currentSheet, Date.now().toString());
                 } catch (e) { console.log('Cache save failed'); }
 
                 updateStats(gainers, losers);
                 updateTopMovers();
 
-                // Allow Top Movers to paint immediately, then render table
-                setTimeout(() => {
-                    renderTable();
+                const now = new Date();
+                lastUpdateEl.innerText = now.toLocaleTimeString('en-IN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false
+                });
 
-                    // Defer less critical updates
-                    setTimeout(() => {
-                        calculateSectorData();
-                        renderHeatmap();
-                        updateTicker();
-                        renderPortfolio();
-                    }, 10);
-                }, 0);
+                // Visual indicators
+                if (usedFallback) {
+                    lastUpdateEl.style.color = 'var(--yellow)';
+                    lastUpdateEl.innerText += ' ⚠️';
+                } else {
+                    lastUpdateEl.style.color = 'var(--accent)';
+                    setTimeout(() => { lastUpdateEl.style.color = 'var(--green)'; }, 1000);
+                }
+
+                setTimeout(() => {
+                    calculateSectorData();
+                    renderHeatmap();
+                    updateTicker();
+                    renderPortfolio();
+                    checkForAlerts();
+                }, 100);
 
             } catch (e) {
                 console.error('Fetch error:', e);
+                fetchRetryCount++;
+
+                // Use cached data if available
+                if (allData.length > 0) {
+                    showToast(`⚠️ Update failed - using last data`, 'warning');
+                    lastUpdateEl.style.color = 'var(--yellow)';
+                } else {
+                    showToast('❌ Failed to load data', 'error');
+                }
             }
+        }
+
+        // Smart refresh - slower when being blocked
+        function getRefreshInterval() {
+            if (fetchRetryCount >= 5) return 60000; // 1 minute
+            if (fetchRetryCount >= 3) return 30000; // 30 seconds
+            return 15000; // Normal 15 seconds
         }
 
         function updateStats(gainers, losers) {
@@ -2481,7 +3149,9 @@
             let term = document.getElementById('search').value.toLowerCase();
 
             filteredData = allData.filter(d => {
-                const matchesSearch = d.Symbol.toLowerCase().includes(term);
+                if (!d.Symbol) return false;
+                const matchesSearch = String(d.Symbol).toLowerCase().includes(term) ||
+                    (d['Company Name'] || '').toLowerCase().includes(term);
                 const chg = d.Changepct;
                 const ltp = d.LTP;
                 const high = d.High;
@@ -2521,6 +3191,15 @@
 
                 return matchesSearch;
             });
+
+            if (filteredData.length === 0) {
+                document.getElementById('tableBody').innerHTML = `<tr><td colspan="5" style="text-align:center; padding:40px; color:var(--text-dim);">
+                    No stocks matching the selected filter.<br>
+                    <span style="font-size:11px; opacity:0.6;">(Hint: "Loading..." data shows as 0% change. Check if filters or search are active.)</span>
+                </td></tr>`;
+                document.getElementById('stockCount').innerText = '0';
+                return;
+            }
 
             // Apply Sorting
             filteredData.sort((a, b) => {
@@ -2576,7 +3255,7 @@
 
                 return `<tr onclick='selectStock(${JSON.stringify(d.Symbol)}, this, ${JSON.stringify(d).replace(/'/g, "&#39;")})'>
                     <td><span class="watchlist-star ${starClass}" onclick="event.stopPropagation(); toggleWatchlist('${d.Symbol}')">${isInWatchlist ? '★' : '☆'}</span></td>
-                    <td style="font-weight:600;">${d.Symbol}</td>
+                    <td style="font-weight:600; color:var(--accent); cursor:pointer;" onclick="event.stopPropagation(); openExternalChart('tv', '${d.Symbol}')" title="Hold Ctrl + Click for TV Chart">${d.Symbol} ↗</td>
                     <td>₹${d.LTP}</td>
                     <td class="${color}">${arrow} ${Math.abs(chg).toFixed(2)}%</td>
                     <td style="color:${factorColor}; font-size:10px; font-weight:600;">${factor}</td>
@@ -2616,7 +3295,6 @@
 
             // Update state
             currentSymbol = sym;
-            document.getElementById('label').innerText = sym;
 
             // Update info panel
             if (data) {
@@ -2631,82 +3309,59 @@
                 // Update PDH and PDL
                 document.getElementById('infoPDH').innerText = data['Previous High'] ? '₹' + data['Previous High'] : '-';
                 document.getElementById('infoPDL').innerText = data['Previous Low'] ? '₹' + data['Previous Low'] : '-';
-            }
 
-            // Load chart
-            loadChart();
+                // --- UPDATE FUNDAMENTALS ---
+                updateFundamentalAnalysis(data);
+            }
         }
 
-        // --- CHART ENGINE ---
-        let tvWidget = null;
+        function updateFundamentalAnalysis(d) {
+            const pe = parseFloat(d.PE || d.pe || 0);
+            const roe = parseFloat(d.ROE || d.roe || 0);
+            const roce = parseFloat(d.ROCE || d.roce || 0);
+            const mcap = d.MarketCap || d.mcap || d.MCap || '-';
+            const de = d.DebtEquity || d.de || d.DebtToEquity || d['Debt to Equity'] || '-';
+            const dy = d.DividendYield || d.dy || d['Dividend Yield'] || d.DivYield || '-';
 
-        function loadChart() {
-            const area = document.getElementById('tv_chart_div');
-            area.innerHTML = "";
+            document.getElementById('fundaPE').innerText = pe || '-';
+            document.getElementById('fundaROE').innerText = roe ? roe + '%' : '-';
+            document.getElementById('fundaROCE').innerText = roce ? roce + '%' : '-';
+            document.getElementById('fundaMCap').innerText = mcap;
+            document.getElementById('fundaDE').innerText = de;
+            document.getElementById('fundaDiv').innerText = dy ? dy + (String(dy).includes('%') ? '' : '%') : '-';
 
-            if (tvWidget) {
-                try { tvWidget.remove(); } catch (e) { }
+            document.getElementById('fundaDeepLink').href = `https://www.screener.in/company/${d.Symbol}/`;
+
+            const adviceEl = document.getElementById('fundaAdvice');
+            const scoreEl = document.getElementById('fundaScore');
+
+            // Analysis Logic
+            if (!pe && !roe && !roce) {
+                adviceEl.className = 'funda-advice neutral';
+                adviceEl.innerHTML = '<span>⚠️ No fundamental data found. Add PE, ROE, ROCE columns for AI insights.</span>';
+                scoreEl.innerText = 'DATA MISSING';
+                return;
             }
 
-            tvWidget = new TradingView.widget({
-                "autosize": true,
-                "symbol": "BSE:" + currentSymbol,
-                "interval": currentTimeframe,
-                "timezone": "Asia/Kolkata",
-                "theme": isDarkMode ? "dark" : "light",
-                "style": "1",
-                "locale": "in",
-                "toolbar_bg": "#131722",
-                "enable_publishing": false,
-                "hide_side_toolbar": false,
-                "hide_top_toolbar": false,
-                "withdateranges": true,
-                "hide_legend": false,
-                "allow_symbol_change": true,
-                "save_image": true,
-                "details": true,
-                "hotlist": true,
-                "calendar": true,
-                "container_id": "tv_chart_div",
-                "studies": [
-                    "MASimple@tv-basicstudies",
-                    "RSI@tv-basicstudies",
-                    "MACD@tv-basicstudies"
-                ],
-                "disabled_features": [],
-                "enabled_features": [
-                    "study_templates",
-                    "use_localstorage_for_settings",
-                    "side_toolbar_in_fullscreen_mode",
-                    "header_indicators",
-                    "header_chart_type",
-                    "header_settings",
-                    "header_screenshot",
-                    "header_fullscreen_button"
-                ],
-                "overrides": {
-                    "mainSeriesProperties.candleStyle.upColor": "#00e676",
-                    "mainSeriesProperties.candleStyle.downColor": "#ff1744",
-                    "mainSeriesProperties.candleStyle.borderUpColor": "#00e676",
-                    "mainSeriesProperties.candleStyle.borderDownColor": "#ff1744",
-                    "mainSeriesProperties.candleStyle.wickUpColor": "#00e676",
-                    "mainSeriesProperties.candleStyle.wickDownColor": "#ff1744"
-                }
-            });
-        }
+            let points = 0;
+            let summary = [];
 
-        // --- TAB SWITCHING ---
-        function switchTab(tab, el) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            if (pe > 0 && pe < 30) { points++; summary.push("Attractive PE"); }
+            if (roe > 15 || roce > 15) { points++; summary.push("Strong Efficiency (ROE/ROCE)"); }
+            if (de !== '-' && parseFloat(de) < 1.2) { points++; summary.push("Healthy Debt"); }
 
-            el.classList.add('active');
-
-            if (tab === 'chart') {
-                document.getElementById('chartTab').classList.add('active');
-            } else if (tab === 'heatmap') {
-                document.getElementById('heatmapTab').classList.add('active');
-                renderHeatmap(); // Refresh heatmap when switching to it
+            if (points >= 2) {
+                adviceEl.className = 'funda-advice good';
+                adviceEl.innerHTML = `<span>✅ <b>CONSIDER BUYING:</b> Stock shows high efficiency (${summary.join(', ')}).</span>`;
+                scoreEl.innerText = 'BULLISH';
+            } else if (points === 1) {
+                adviceEl.className = 'funda-advice neutral';
+                adviceEl.innerHTML = `<span>⚖️ <b>WATCHLIST:</b> Moderate fundamentals. Wait for better entry or improved ratios.</span>`;
+                scoreEl.innerText = 'NEUTRAL';
+            } else {
+                adviceEl.className = 'funda-advice bad';
+                adviceEl.innerHTML = `<span>❌ <b>AVOID / SELL:</b> Weak financial scores or expensive valuation. Risky entry point.</span>`;
+                scoreEl.innerText = 'BEARISH';
             }
         }
 
@@ -2788,23 +3443,13 @@
                     : `rgba(255, 23, 68, ${intensity * 0.15})`;
 
                 return `
-            <div class="sector-card ${changeClass}" onclick="filterBySector('${sector.name.replace(/'/g, "\\'")}')" title="Click to filter stocks" style="background: linear-gradient(135deg, var(--bg-panel), ${bgColor});">
+            <div class="sector-card ${changeClass}" onclick="openSectorExplorer('${sector.name.replace(/'/g, "\\'")}')" title="Click to explore sector">
                 <div class="sector-name">${sector.name}</div>
                 <div class="sector-change" style="color: ${changeColor}">
                     ${arrow} ${Math.abs(sector.avgChange).toFixed(2)}%
                 </div>
-                <div class="sector-stats">
-                    <div class="sector-stat-row">
-                        <span class="sector-label">Gainers</span>
-                        <span class="sector-value up">${sector.gainers}</span>
-                    </div>
-                    <div class="sector-stat-row">
-                        <span class="sector-label">Losers</span>
-                        <span class="sector-value down">${sector.losers}</span>
-                    </div>
-                </div>
                 <div class="sector-stocks-count">
-                    ${sector.stocksCount} stocks
+                    ${sector.stocksCount} Stocks (${sector.gainers}G / ${sector.losers}L)
                 </div>
             </div>
         `;
@@ -2813,47 +3458,39 @@
             grid.innerHTML = cards;
         }
 
-        // Filter stocks by sector when clicking on sector card
-        function filterBySector(sectorName) {
-            // Switch to chart tab
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.tab-btn').classList.add('active');
-            document.getElementById('heatmapTab').classList.remove('active');
-            document.getElementById('chartTab').classList.add('active');
-
-            // Filter table by sector
-            document.getElementById('search').value = '';
-
-            filteredData = allData.filter(d => {
-                const sector = d.Sector || d.Industry || d.Group || 'Other';
-                return sector === sectorName;
+        // Sector Explorer Modal Logic
+        function openSectorExplorer(sectorName) {
+            const sectorStocks = allData.filter(d => {
+                const s = d.Sector || d.Industry || d.Group || 'Other';
+                return s === sectorName;
             });
 
-            // Update table with filtered results
-            let rows = filteredData.map(d => {
-                let chg = parseFloat(d.Changepct);
-                let color = chg >= 0 ? 'up' : 'down';
-                let arrow = chg >= 0 ? '▲' : '▼';
-                let pdh = d['Previous High'] || '-';
-                let pdl = d['Previous Low'] || '-';
+            document.getElementById('sectorModalTitle').innerText = sectorName;
+            document.getElementById('sectorModalCount').innerText = `${sectorStocks.length} Stocks`;
 
-                return `<tr onclick='selectStock(${JSON.stringify(d.Symbol)}, this, ${JSON.stringify(d).replace(/'/g, "&#39;")})'>
-            <td style="font-weight:600;">${d.Symbol}</td>
-            <td>₹${d.LTP}</td>
-            <td class="${color}">${arrow} ${Math.abs(chg).toFixed(2)}%</td>
-            <td style="color:var(--green); font-size:11px;">${pdh}</td>
-            <td style="color:var(--red); font-size:11px;">${pdl}</td>
-        </tr>`;
+            const tbody = document.getElementById('sectorModalBody');
+            tbody.innerHTML = sectorStocks.sort((a, b) => b.Changepct - a.Changepct).map(d => {
+                const chg = parseFloat(d.Changepct);
+                const color = chg >= 0 ? 'up' : 'down';
+                const arrow = chg >= 0 ? '▲' : '▼';
+
+                return `
+                    <tr onclick="openExternalChart('tv', '${d.Symbol}')" title="Open TradingView Chart">
+                        <td style="font-weight:700; color:var(--accent); font-size:14px;">${d.Symbol} ↗</td>
+                        <td style="font-weight:600;">₹${d.LTP}</td>
+                        <td class="${color}" style="font-weight:700;">${arrow} ${Math.abs(chg).toFixed(2)}%</td>
+                        <td>${d['Previous High'] || '-'}</td>
+                        <td>${d['Previous Low'] || '-'}</td>
+                    </tr>
+                `;
             }).join('');
 
-            document.getElementById('tableBody').innerHTML = rows;
-
-            // Reset filter chips
-            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            document.querySelector('.chip').classList.add('active');
-            currentFilter = 'all';
+            document.getElementById('sectorExplorerModal').style.display = 'flex';
         }
 
+        function closeSectorExplorer() {
+            document.getElementById('sectorExplorerModal').style.display = 'none';
+        }
         function changeDataset(sheetName) {
             currentSheet = sheetName;
             DATA_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/${currentSheet}`;
@@ -2869,6 +3506,13 @@
             // Clear current data variables to prevent mixup
             allData = [];
             filteredData = [];
+
+            // Reset filters to ensure data shows up
+            currentFilter = 'all';
+            document.getElementById('search').value = '';
+            document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+            const allChip = document.querySelector('.chip[onclick*="\'all\'"]');
+            if (allChip) allChip.classList.add('active');
 
             // Attempt to load from new sheet's cache first
             loadFromCache();
@@ -3007,6 +3651,19 @@
             }
         }
 
+        // Open external live chart link
+        function openExternalChart(provider, sym) {
+            const symbol = sym || currentSymbol;
+            let url = '';
+            if (provider === 'google') {
+                url = `https://www.google.com/finance/quote/${symbol}:NSE`;
+            } else if (provider === 'tv') {
+                url = `https://in.tradingview.com/chart/?symbol=NSE:${symbol}`;
+            }
+            window.open(url, '_blank');
+            showToast(`Opening ${provider} chart for ${symbol}`, 'info');
+        }
+
         // --- KEYBOARD NAVIGATION ---
         function setupKeyboardNavigation() {
             document.addEventListener('keydown', function (e) {
@@ -3134,16 +3791,82 @@
                 }
             });
 
+            // Notification counters
+            let badge = document.getElementById('notifBadge');
+            let currentCount = parseInt(badge.innerText) || 0;
+
             // Play sound and show notification for new breakouts
             if (newBreakouts.length > 0) {
                 playAlertSound('high');
-                showToast('🚀 PDH Breakout: ' + newBreakouts.slice(0, 3).join(', ') + (newBreakouts.length > 3 ? ' +' + (newBreakouts.length - 3) + ' more' : ''), 'success');
+                const log = document.getElementById('alertLog');
+                const history = document.getElementById('notifHistory');
+                if (log.innerHTML.includes('Waiting')) log.innerHTML = '';
+                if (history.innerHTML.includes('No alerts')) history.innerHTML = '';
+
+                newBreakouts.forEach(s => {
+                    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const html = `<div class="alert-item" onclick="openExternalChart('tv', '${s}')" title="Click to open TV Chart">
+                        <span style="color:var(--green); font-weight:700;">🚀 ${s} ↗</span>
+                        <span style="color:var(--text-dim); font-size:10px;">PDH Breakout @ ${time}</span>
+                    </div>`;
+
+                    const historyHtml = `<div class="notif-item" onclick="openExternalChart('tv', '${s}')">
+                        <div class="notif-time">${time}</div>
+                        <div class="notif-msg">🚀 ${s}: PDH Breakout ↗</div>
+                    </div>`;
+
+                    log.innerHTML = html + log.innerHTML;
+                    history.innerHTML = historyHtml + history.innerHTML;
+                    currentCount++;
+                });
+
+                badge.innerText = currentCount;
+                badge.style.display = 'block';
+                showToast('🚀 PDH Breakout: ' + newBreakouts.slice(0, 3).join(', '), 'success');
             }
 
             if (newBreakdowns.length > 0) {
                 playAlertSound('low');
-                showToast('💥 PDL Breakdown: ' + newBreakdowns.slice(0, 3).join(', ') + (newBreakdowns.length > 3 ? ' +' + (newBreakdowns.length - 3) + ' more' : ''), 'warning');
+                const log = document.getElementById('alertLog');
+                const history = document.getElementById('notifHistory');
+                if (log.innerHTML.includes('Waiting')) log.innerHTML = '';
+                if (history.innerHTML.includes('No alerts')) history.innerHTML = '';
+
+                newBreakdowns.forEach(s => {
+                    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const html = `<div class="alert-item" onclick="openExternalChart('tv', '${s}')" title="Click to open TV Chart">
+                        <span style="color:var(--red); font-weight:700;">💥 ${s} ↗</span>
+                        <span style="color:var(--text-dim); font-size:10px;">PDL Breakdown @ ${time}</span>
+                    </div>`;
+
+                    const historyHtml = `<div class="notif-item" onclick="openExternalChart('tv', '${s}')">
+                        <div class="notif-time">${time}</div>
+                        <div class="notif-msg">💥 ${s}: PDL Breakdown ↗</div>
+                    </div>`;
+
+                    log.innerHTML = html + log.innerHTML;
+                    history.innerHTML = historyHtml + history.innerHTML;
+                    currentCount++;
+                });
+
+                badge.innerText = currentCount;
+                badge.style.display = 'block';
+                showToast('💥 PDL Breakdown: ' + newBreakdowns.slice(0, 3).join(', '), 'warning');
             }
+
+            // Update Volume Shockers (Top 10 by Volume)
+            const shockers = [...allData].sort((a, b) => (b.Volume || 0) - (a.Volume || 0)).slice(0, 10);
+            document.getElementById('volumeShockers').innerHTML = shockers.map(s => {
+                const vol = s.Volume || 0;
+                const volFormatted = vol > 1000000 ? (vol / 1000000).toFixed(1) + 'M' : (vol > 1000 ? (vol / 1000).toFixed(1) + 'K' : vol);
+                return `
+                <div class="shocker-item">
+                    <span style="font-weight:700; color:var(--accent); cursor:pointer;" onclick="openExternalChart('tv', '${s.Symbol}')">${s.Symbol} ↗</span>
+                    <span style="color:var(--text-dim); font-size:11px;">Vol: ${volFormatted}</span>
+                    <span class="${s.Changepct >= 0 ? 'up' : 'down'}" style="font-size:11px; font-weight:700;">${(s.Changepct >= 0 ? '+' : '')}${s.Changepct.toFixed(2)}%</span>
+                </div>
+            `;
+            }).join('');
         }
 
         function playAlertSound(type) {
@@ -3406,9 +4129,7 @@
             document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Reload chart with new interval
-            loadChart();
-            showToast('📊 Timeframe: ' + btn.innerText, 'success');
+            showToast('📊 Timeframe updated', 'success');
         }
 
         // --- ADVANCED SCREENER ---
@@ -3555,6 +4276,36 @@
 
             container.innerHTML = html;
         }
+
+        // NOTIFICATION PANEL LOGIC
+        function toggleNotifications() {
+            const panel = document.getElementById('notifPanel');
+            const isVisible = panel.style.display === 'flex';
+            panel.style.display = isVisible ? 'none' : 'flex';
+
+            // Clear badge count when opened
+            if (!isVisible) {
+                const badge = document.getElementById('notifBadge');
+                badge.innerText = '0';
+                badge.style.display = 'none';
+            }
+        }
+
+        function clearNotifications() {
+            document.getElementById('notifHistory').innerHTML = '<div style="padding:40px; text-align:center; color:var(--text-dim); font-size:12px;">No alerts yet</div>';
+            const badge = document.getElementById('notifBadge');
+            badge.innerText = '0';
+            badge.style.display = 'none';
+        }
+
+        // Close notif panel when clicking outside
+        document.addEventListener('click', function (e) {
+            const panel = document.getElementById('notifPanel');
+            const bell = document.getElementById('bellIcon');
+            if (panel.style.display === 'flex' && !panel.contains(e.target) && !bell.contains(e.target)) {
+                panel.style.display = 'none';
+            }
+        });
 
         function removeFromPortfolio(index) {
             const symbol = portfolio[index].symbol;
